@@ -1,0 +1,5 @@
+# prevent folder listing
+IndexIgnore *
+
+# block 
+Options -Indexes
