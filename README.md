@@ -34,6 +34,7 @@ username: _admin123_ / password: _Admin123@_
 -   Student Profile View
 
 **User:**
+username: _chieu123bl_ / password: _ChieuNDC112233@_
 
 -   Changging user account
 -   Changging some information was accpected
