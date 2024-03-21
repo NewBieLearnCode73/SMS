@@ -5,39 +5,32 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
+        $student = new Student();
+        $student->name = $_POST['fullname'];
+        $student->birthdate = $_POST['birthdate'];
+        $student->address = $_POST['address'];
+        $student->email = $_POST['email'];
+        $student->score = $_POST['score'];
+
         if (!empty($_FILES['file'])) {
             $image = upload_file();
-            $student = new Student();
-            $student->name = $_POST['fullname'];
-            $student->birthdate = $_POST['birthdate'];
-            $student->address = $_POST['address'];
-            $student->email = $_POST['email'];
-            $student->score = $_POST['score'];
             $student->image = $image;
-            if ($student->create()) {
-                redirect(url_for("admin/admin-add-student.php"));
-            } else {
+            if (!$student->create()) {
                 unlink($_SERVER['DOCUMENT_ROOT'] . "/ct07n_nhom13_source/uploads/" . $image);
             }
         } else {
-            $student = new Student();
-            $student->name = $_POST['fullname'];
-            $student->birthdate = $_POST['birthdate'];
-            $student->address = $_POST['address'];
-            $student->email = $_POST['email'];
-            $student->score = $_POST['score'];
-            if ($student->create()) {
-                redirect(url_for("admin/admin-add-student.php"));
-            } else {
+            if (!$student->create()) {
                 redirect(url_for('error-404.php'));
             }
         }
-    } catch (PDOException $e) {
+        // Tạo session thông báo
+        $_SESSION['message'] = 'Added successfully';
+        redirect(url_for("admin-add-student.php"));
+    } catch (Throwable $e) {
         redirect(url_for('error-404.php'));
     }
 }
 ?>
-
 
 
 <!-- Main content -->

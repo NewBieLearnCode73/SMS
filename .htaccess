@@ -1,5 +1,23 @@
 # prevent folder listing
 IndexIgnore *
 
-# block 
+# block
 Options -Indexes
+
+# Chuyển hướng thông báo lỗi
+ErrorDocument 404 /ct07n_nhom13_source/error-404.php
+ErrorDocument 505 /ct07n_nhom13_source/error-505.php
+
+# Giấu id bên và thư mục bên trên đi
+# http://localhost/ct07n_nhom13_source/admin/admin-edit-profile-student.php?id=28 thì thành http://localhost/ct07n_nhom13_source/admin-edit-profile-student.php
+RewriteEngine On
+RewriteBase /ct07n_nhom13_source/
+
+# Ẩn thư mục admin
+RewriteCond %{THE_REQUEST} ^GET\ /admin/
+RewriteCond %{REQUEST_URI} !^/admin-.*\.php [NC]
+RewriteRule ^admin/(.*) /ct07n_nhom13_source/$1 [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /ct07n_nhom13_source/admin/$1 [L]

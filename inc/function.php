@@ -79,3 +79,12 @@ function url_for($url)
 {
     return URL_ROOT . $url;
 }
+
+// Kiểm tra có session message hay không
+function has_message()
+{
+    if (isset($_SESSION['message'])) {
+        echo "<script>alert('{$_SESSION['message']}')</script>";
+        unset($_SESSION['message']);
+    }
+}

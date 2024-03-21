@@ -74,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Nếu là phương thức POST
                                 ?>
                             </p>
                             </p>
-
                             <div class="form-group text-center custom-mt-form-group">
                                 <button class="btn btn-primary btn-block account-btn" type="submit">
                                     Login

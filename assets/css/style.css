@@ -4450,10 +4450,6 @@ blockquote p {
     margin-top: 0;
 }
 
-ul.pagination {
-    margin-top: -10px;
-}
-
 .tab-content {
     padding-top: 20px;
 }

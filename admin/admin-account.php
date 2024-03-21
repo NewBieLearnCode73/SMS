@@ -5,34 +5,25 @@
 <?php
 $error = array();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $partten_pass = '/^(?=.*[A-Z])(?=.*[a-z]).{8,20}$/';
+    $password = $_POST['password'] ?? '';
+    $repassword = $_POST['repassword'] ?? '';
 
-    if (empty($_POST['password'])) {
-        $error['password'] =  'Password not empty';
-    }
-
-    // Is password fit? 
-    else if (strlen($_POST['password']) < 8) {
-        $error['password'] =  'Password is needed more than 8 character';
-    } else if (!preg_match($partten_pass, $_POST['password'])) {
-
-        $error['password'] =  'Password is not fit';
-    }
-
-    // Nếu không có lỗi input password
-    if (!isset($error['password'])) {
-        if (empty($_POST['repassword'])) {
-            $error['repassword'] =  'RePassword not empty';
-        } else if ($_POST['password'] != $_POST['repassword']) {
-            $error['repassword'] = 'RePassword is not fit with Password';
-        } else {
-            $user->editPassword(1, $_POST['password']);
-            $error['success'] = "<b></b>Changed Password Successfully</b>";
-        }
+    if (empty($password)) {
+        $error['password'] = 'Password not empty';
+    } elseif (strlen($password) < 8) {
+        $error['password'] = 'Password is needed more than 8 character';
+    } elseif (!preg_match('/^(?=.*[A-Z])(?=.*[a-z]).{8,20}$/', $password)) {
+        $error['password'] = 'Password is not fit';
+    } elseif (empty($repassword)) {
+        $error['repassword'] = 'RePassword not empty';
+    } elseif ($password != $repassword) {
+        $error['repassword'] = 'RePassword is not fit with Password';
+    } else {
+        $user->editPassword(1, $password);
+        $error['success'] = "<b>Changed Password Successfully</b>";
     }
 }
 ?>
-
 
 <!-- Main content -->
 <div class="page-wrapper">

@@ -13,3 +13,5 @@ $conn = new Database(); // Nhận connection từ class Database
 // Khi muốn truy vấn thì $conn->connection->query($sql);
 
 $session = new Session();
+
+has_message();

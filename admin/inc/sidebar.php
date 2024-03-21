@@ -16,12 +16,11 @@
                 </li>
 
                 <li>
-                    <a href=" <?php echo url_for("admin/admin-add-student.php") ?>"><img src="assets/img/sidebar/icon-2.png" alt="icon" /><span>Add Student</span></a>
+                    <a href=" <?php echo url_for("admin-add-student.php") ?>"><img src="assets/img/sidebar/icon-2.png" alt="icon" /><span>Add Student</span></a>
                 </li>
                 <li>
-                    <a href=" <?php echo url_for("admin/admin-account.php") ?>"><img src="assets/img/sidebar/icon-3.png" alt="icon" /><span>Admin Account</span></a>
+                    <a href=" <?php echo url_for("admin-account.php") ?>"><img src="assets/img/sidebar/icon-3.png" alt="icon" /><span>Admin Account</span></a>
                 </li>
-
             </ul>
         </div>
     </div>

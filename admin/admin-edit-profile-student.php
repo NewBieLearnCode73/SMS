@@ -2,29 +2,35 @@
 <?php include_once("inc/sidebar.php"); ?>
 
 <?php
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+
+try {
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        redirect("admin-dashboard.php");
+    }
+
     $student = Student::find_by_id($id);
-    if (isset($_POST['submit'])) {
-        // Vòng lặp foreach nếu như có dữ liệu thì gán mới nếu không thì giữ nguyên
+    if ($_POST['submit'] ?? false) {
         foreach ($student as $key => $value) {
             if (isset($_POST[$key])) {
                 $student->$key = $_POST[$key];
             }
         }
 
-        if ($_FILES['file']['name'] != "") {
-            // Xóa file cũ
+        if (!empty($_FILES['file']['name'])) {
             $student->delete_image();
             $student->image = upload_file();
-        } else {
-            $old_image = $student->image;
-            $student->image = $old_image;
         }
+
         if ($student->update_by_admin()) {
-            header("Location: " . "admin-edit-profile-student.php?id=" . $student->id);
+            // Tạo session thông báo
+            $_SESSION['message'] = 'Updated successfully';
+
+            redirect("admin-edit-profile-student.php?id=" . $student->id);
         }
     }
+} catch (Throwable $e) {
+    redirect(url_for("error-505.php"));
 }
 ?>
 
