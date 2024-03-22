@@ -71,7 +71,10 @@ class Pagination
             $start = ($this->current_page() * $this->limit) - $this->limit;
         }
 
-        $stmt = $this->conn->connection->prepare("SELECT * FROM $this->table LIMIT $start, $this->limit");
+        // Lấy dữ liệu từ database với giới hạn số bản ghi mỗi trang
+        $stmt = $this->conn->connection->prepare("SELECT students.*, classes.class_name FROM $this->table 
+        LEFT JOIN classes ON students.id = classes.student_id
+        LIMIT $start, $this->limit");
         $stmt->execute();
 
         // Set the fetch mode to Student class

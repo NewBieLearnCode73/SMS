@@ -8,6 +8,7 @@ spl_autoload_register(function ($class) {
 });
 
 require_once("function.php");
+require_once("classes_data.php");
 
 $conn = new Database(); // Nhận connection từ class Database
 // Khi muốn truy vấn thì $conn->connection->query($sql);

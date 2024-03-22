@@ -21,3 +21,4 @@ RewriteRule ^admin/(.*) /ct07n_nhom13_source/$1 [L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /ct07n_nhom13_source/admin/$1 [L]
+

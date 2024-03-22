@@ -56,6 +56,10 @@
                                             <span class="text"><?php echo $student->address ?></span>
                                         </li>
                                         <li>
+                                            <span class="title">Classs:</span>
+                                            <span class="text"><?php echo Classes::find_class_by_student_id($student->id)[0]->class_name ?></span>
+                                        </li>
+                                        <li>
                                             <span class="title">Score:</span>
                                             <span class="text"><?php echo $student->score ?></span>
                                         </li>

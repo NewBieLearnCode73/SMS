@@ -23,6 +23,7 @@ try {
         }
 
         if ($student->update_by_admin()) {
+            Classes::update_class($id, $_POST['class']);
             // Tạo session thông báo
             $_SESSION['message'] = 'Updated successfully';
 
@@ -54,6 +55,20 @@ try {
                                     <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="text" class="form-control" name="email" id="email" value="<?php echo $student->email; ?>" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="class">class</label>
+                                        <select class="form-control" name="class" id="class" required>
+                                            <option value="">Select Class</option>
+                                            <?php foreach ($classes_exist as $grade => $classes) : ?>
+                                                <optgroup label="<?php echo $grade; ?>">
+                                                    <?php foreach ($classes as $class) : ?>
+                                                        <option value="<?php echo $class; ?>"><?php echo $class; ?></option>
+                                                    <?php endforeach; ?>
+                                                </optgroup>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
 
                                     <div class="form-group">
@@ -99,6 +114,20 @@ try {
                                             <p class="text">
                                                 Email: <span class="data"><?php echo $student->email; ?></span>
                                             </p>
+
+                                            <p class="text">
+                                                Class:
+                                                <span class="data">
+                                                    <?php
+                                                    if (!empty(Classes::find_class_by_student_id($id))) {
+                                                        echo Classes::find_class_by_student_id($id)[0]->class_name;
+                                                    } else {
+                                                        echo "No class";
+                                                    }
+                                                    ?>
+                                                </span>
+                                            </p>
+
                                             <p class="text">
                                                 Score: <span class="data"><?php echo $student->score; ?></span>
                                             </p>

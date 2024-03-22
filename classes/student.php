@@ -56,7 +56,12 @@ class Student
             $stmt->bindValue(':email', $this->email);
             $stmt->bindValue(':image', $this->image);
             $stmt->bindValue(':score', $this->score);
-            return $stmt->execute();
+            if ($stmt->execute()) {
+                $this->id = $conn->connection->lastInsertId();
+                return true;
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             return false;
@@ -112,6 +117,9 @@ class Student
             $user = User::find_by_student_id($this->id);
             if ($user) {
                 $user->delete(); // Xóa user
+            }
+            if (Classes::find_class_by_student_id($this->id)) {
+                Classes::delete_class($this->id);
             }
 
             $stmt = $conn->connection->prepare("DELETE FROM students WHERE id=:id");

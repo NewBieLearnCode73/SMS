@@ -22,6 +22,7 @@ $(document).ready(function () {
                     </h2>
                 </td>
                 <td>${student.id}</td>
+                <td>${student.class_name}</td>
                 <td>${student.score}</td>
                 <td>${student.email}</td>
                 <td>${student.address}</td>

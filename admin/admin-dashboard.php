@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="content-page">
-            <div class="row filter-row">
+            <!-- <div class="row filter-row">
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group form-focus">
                         <input type="text" class="form-control floating">
@@ -37,7 +37,7 @@
                 <div class="col-sm-6 col-md-3">
                     <a href="#" class="btn btn-search rounded btn-block mb-3"> search </a>
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-md-12 mb-3">
                     <div class="table-responsive">
@@ -46,6 +46,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Student ID</th>
+                                    <th>Class</th>
                                     <th>Score</th>
                                     <th>Email</th>
                                     <th>Address</th>

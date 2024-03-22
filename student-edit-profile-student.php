@@ -49,6 +49,11 @@ if (isset($_POST['submit'])) {
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="score">Class</label>
+                                        <input type="text" class="form-control" name="classs" id="score" value=" <?php echo Classes::find_class_by_student_id($student->id)[0]->class_name; ?>" disabled />
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="score">Score</label>
                                         <input type="number" class="form-control" name="score" id="score" min="0" max="10" step="0.1" value="<?php echo $student->score; ?>" disabled />
                                     </div>
@@ -93,6 +98,18 @@ if (isset($_POST['submit'])) {
                                             </p>
                                             <p class="text">
                                                 Email: <span class="data"><?php echo $student->email; ?></span>
+                                            </p>
+                                            <p class="text">
+                                                Class:
+                                                <span class="data">
+                                                    <?php
+                                                    if (!empty(Classes::find_class_by_student_id($student->id))) {
+                                                        echo Classes::find_class_by_student_id($student->id)[0]->class_name;
+                                                    } else {
+                                                        echo "No class";
+                                                    }
+                                                    ?>
+                                                </span>
                                             </p>
                                             <p class="text">
                                                 Score: <span class="data"><?php echo $student->score; ?></span>

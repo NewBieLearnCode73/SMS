@@ -1,7 +1,6 @@
 <?php include_once("inc/header.php"); ?>
 <?php include_once("inc/sidebar.php"); ?>
 
-
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
@@ -11,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $student->address = $_POST['address'];
         $student->email = $_POST['email'];
         $student->score = $_POST['score'];
+
 
         if (!empty($_FILES['file'])) {
             $image = upload_file();
@@ -23,6 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 redirect(url_for('error-404.php'));
             }
         }
+        $class = new Classes();
+        $class->class_name = $_POST['class'];
+        $class->student_id = $student->id;
+        $class->create();
+
         // Tạo session thông báo
         $_SESSION['message'] = 'Added successfully';
         redirect(url_for("admin-add-student.php"));
@@ -31,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
 
 <!-- Main content -->
 <div class="page-wrapper">
@@ -62,6 +66,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="email" class="form-control" name="email" id="email" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="class">class</label>
+                                        <select class="form-control" name="class" id="class">
+                                            <option value="">Select Class</option>
+                                            <?php foreach ($classes_exist as $grade => $classes) : ?>
+                                                <optgroup label="<?php echo $grade; ?>">
+                                                    <?php foreach ($classes as $class) : ?>
+                                                        <option value="<?php echo $class; ?>"><?php echo $class; ?></option>
+                                                    <?php endforeach; ?>
+                                                </optgroup>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
 
                                     <div class="form-group">
