@@ -10,6 +10,13 @@ if (!$session->is_signed_in()) {
 ?>
 <?php $student = Student::find_by_id($user->student_id); ?>
 
+<?php
+// Nếu như user là admin thì chuyển hướng về index index
+if ($user->role == 1) {
+    redirect(url_for("index.php"));
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

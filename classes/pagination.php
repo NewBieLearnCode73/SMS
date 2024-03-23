@@ -42,6 +42,12 @@ class Pagination
         $this->limit = $limit;
     }
 
+    // Lấy số bản ghi mỗi trang
+    public function get_limit()
+    {
+        return $this->limit;
+    }
+
     // Lấy trang hiện tại
     public function current_page()
     {
@@ -64,17 +70,25 @@ class Pagination
 
 
     // Lấy dữ liệu từ database
-    public function get_data()
+    // 
+    public function get_full($table_join = null, $table_join_cells = null, $table_join_cell_con = null, $table_con = null)
     {
         $start = 0;
-        if ($this->current_page() > 1) {
+        if (
+            $this->current_page() > 1
+        ) {
             $start = ($this->current_page() * $this->limit) - $this->limit;
         }
 
-        // Lấy dữ liệu từ database với giới hạn số bản ghi mỗi trang
-        $stmt = $this->conn->connection->prepare("SELECT students.*, classes.class_name FROM $this->table 
-        LEFT JOIN classes ON students.id = classes.student_id
+        // Prepare the SQL query
+        if ($table_join) {
+            $stmt = $this->conn->connection->prepare("SELECT $this->table.*, $table_join_cells FROM $this->table 
+        LEFT JOIN $table_join ON $this->table.$table_con = $table_join.$table_join_cell_con
         LIMIT $start, $this->limit");
+        } else {
+            $stmt = $this->conn->connection->prepare("SELECT * FROM $this->table LIMIT $start, $this->limit");
+        }
+
         $stmt->execute();
 
         // Set the fetch mode to Student class
@@ -82,6 +96,7 @@ class Pagination
 
         return $stmt->fetchAll();
     }
+
 
     // Lấy số tổng số trang (Sẽ hiện ở dưới bảng)
     public function get_pagination_number()

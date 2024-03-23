@@ -32,11 +32,29 @@ class Student
     {
         global $conn;
         try {
-            $stmt = $conn->connection->prepare("SELECT * FROM students WHERE id = :id LIMIT 1");
+            $stmt = $conn->connection->prepare("SELECT students.*, classes.class_name FROM students 
+    LEFT JOIN classes ON students.id = classes.student_id WHERE students.id = :id");
             $stmt->bindValue(':id', $id);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Student');
             $result = $stmt->fetch();
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    // Find by name
+    public static function find_by_name($name)
+    {
+        global $conn;
+        try {
+            $stmt = $conn->connection->prepare("SELECT students.*, classes.class_name FROM students
+LEFT JOIN classes ON students.id = classes.student_id WHERE LOWER(students.name) LIKE LOWER(:name)");
+            $stmt->bindValue(':name', '%' . $name . '%');
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
             return $result;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();

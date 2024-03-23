@@ -18,9 +18,19 @@
                 <li>
                     <a href=" <?php echo url_for("admin-add-student.php") ?>"><img src="assets/img/sidebar/icon-2.png" alt="icon" /><span>Add Student</span></a>
                 </li>
+
+                <li class="submenu">
+                    <a href="#"><img src="assets/img/sidebar/icon-8.png" alt="icon" /><span>Finding</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none">
+                        <li><a href=" <?php echo url_for("admin-finding-student-by-id.php") ?>">ID</a></li>
+                        <li><a href=" <?php echo url_for("admin-finding-student-by-name.php") ?>">Name</a></li>
+                        <li><a href=" <?php echo url_for("admin-finding-class.php") ?>">Class</a></li>
+                    </ul>
+                </li>
                 <li>
                     <a href=" <?php echo url_for("admin-account.php") ?>"><img src="assets/img/sidebar/icon-3.png" alt="icon" /><span>Admin Account</span></a>
                 </li>
+
             </ul>
         </div>
     </div>
