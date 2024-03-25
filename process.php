@@ -25,6 +25,3 @@ if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) == '/ct07n_nhom13_source/i
     }
     echo json_encode(array('students' => $students, 'cur_page' => $cur_page, 'page_number' => $page_number));
 }
-
-if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) == '/ct07n_nhom13_source/admin-finding-student-by-name.php') {
-}

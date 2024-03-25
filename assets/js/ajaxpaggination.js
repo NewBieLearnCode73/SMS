@@ -96,15 +96,34 @@ $(document).ready(function () {
             });
         }
     }
+});
 
-    // if (
-    //     window.location.pathname ==
-    //     "/ct07n_nhom13_source/admin-finding-student-by-name.php"
-    // ) {
-    //     // Ngăn chặn hành vi mặc định của form khi được submit và cập nhật giá trị của biến finding
-    //     $("form").on("submit", function (e) {
-    //         e.preventDefault();
-    //         finding = $('input[name="name"]').val(); // cập nhật giá trị khi form được submit
-    //     });
-    // }
+// Sử dụng DataTable để tạo bảng dữ liệu
+var dataTable = $("#studentTable").DataTable({
+    destroy: true,
+    processing: true,
+    serverSide: true,
+    info: true,
+    scrollY: false,
+    scrollX: false,
+    pagingType: "full_numbers",
+    ajax: {
+        url: "fetch.php",
+        type: "POST",
+    },
+    drawCallback: function (settings) {
+        var api = this.api();
+        var rows = api.rows({ page: "current" }).nodes();
+        var last = rows.length - 1;
+        if (last >= 0) {
+            var currentRow = $(api.row(last).node());
+            var previousRow = $(api.row(last - 1).node());
+            if (
+                currentRow.children().first().text() ===
+                previousRow.children().first().text()
+            ) {
+                api.row(last, { page: "current" }).remove().draw(false);
+            }
+        }
+    },
 });

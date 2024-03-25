@@ -1,13 +1,4 @@
 $(document).ready(function () {
-    let currentPage = 1;
-    fetch_data(currentPage);
-
-    $(document).on("click", ".pagination a", function (event) {
-        event.preventDefault();
-        currentPage = $(this).data("page");
-        fetch_data(currentPage);
-    });
-
     function createStudentRow(student) {
         return `
             <tr>
@@ -40,53 +31,99 @@ $(document).ready(function () {
         `;
     }
 
-    function fetch_data(page) {
-        $.ajax({
-            url: "process.php",
-            method: "GET",
-            data: {
-                page: page,
-            },
-            dataType: "json",
-            success: function (data) {
-                const students = data.students;
-                const cur_page = data.cur_page;
-                const page_number = data.page_number;
+    if (window.location.pathname == "/ct07n_nhom13_source/index.php") {
+        let currentPage = 1;
+        fetch_data(currentPage);
 
-                const html = students.map(createStudentRow).join("");
-                $("#admin-dash").html(html);
-
-                $("#current_page").html(cur_page);
-
-                let pagination = "";
-                if (cur_page > 1) {
-                    pagination += `<li class="page-item"><a class="page-link" data-page="1" href="#">Start</a></li>`;
-                    pagination += `<li class="page-item"><a class="page-link" data-page="${
-                        cur_page - 1
-                    }" href="#">Previous</a></li>`;
-                }
-
-                const $stake = 4;
-                let $count = 0;
-                for (let i = cur_page; i <= page_number; i++) {
-                    $count++;
-                    if ($count == $stake) {
-                        break;
-                    }
-                    pagination += `<li class="page-item"><a class="page-link" data-page="${i}" href="#">${i}</a></li>`;
-                }
-
-                if (cur_page < page_number) {
-                    pagination += `<li class="page-item"><a class="page-link" data-page="${
-                        cur_page + 1
-                    }" href="#">Next</a></li>`;
-                    pagination += `<li class="page-item"><a class="page-link" data-page="${page_number}" href="#">End</a></li>`;
-                }
-                $("ul.pagination").html(pagination);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX request failed: ", textStatus, errorThrown);
-            },
+        $(document).on("click", ".pagination a", function (event) {
+            event.preventDefault();
+            currentPage = $(this).data("page");
+            fetch_data(currentPage);
         });
+
+        // Nếu như url hiện tại là index.php thì sẽ gọi hàm fetch_data với tham số currentPage
+        function fetch_data(page) {
+            $.ajax({
+                url: "process.php",
+                method: "GET",
+                data: {
+                    page: page,
+                },
+                dataType: "json",
+                success: function (data) {
+                    const students = data.students;
+                    const cur_page = data.cur_page;
+                    const page_number = data.page_number;
+
+                    const html = students.map(createStudentRow).join("");
+                    $("#admin-dash").html(html);
+
+                    $("#current_page").html(cur_page);
+
+                    let pagination = "";
+                    if (cur_page > 1) {
+                        pagination += `<li class="page-item"><a class="page-link" data-page="1" href="#">Start</a></li>`;
+                        pagination += `<li class="page-item"><a class="page-link" data-page="${
+                            cur_page - 1
+                        }" href="#">Previous</a></li>`;
+                    }
+
+                    const $stake = 4;
+                    let $count = 0;
+                    for (let i = cur_page; i <= page_number; i++) {
+                        $count++;
+                        if ($count == $stake) {
+                            break;
+                        }
+                        pagination += `<li class="page-item"><a class="page-link" data-page="${i}" href="#">${i}</a></li>`;
+                    }
+
+                    if (cur_page < page_number) {
+                        pagination += `<li class="page-item"><a class="page-link" data-page="${
+                            cur_page + 1
+                        }" href="#">Next</a></li>`;
+                        pagination += `<li class="page-item"><a class="page-link" data-page="${page_number}" href="#">End</a></li>`;
+                    }
+                    $("ul.pagination").html(pagination);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(
+                        "AJAX request failed: ",
+                        textStatus,
+                        errorThrown
+                    );
+                },
+            });
+        }
     }
+});
+
+// Sử dụng DataTable để tạo bảng dữ liệu
+var dataTable = $("#studentTable").DataTable({
+    destroy: true,
+    processing: true,
+    serverSide: true,
+    info: true,
+    scrollY: false,
+    scrollX: false,
+    pagingType: "full_numbers",
+    ajax: {
+        url: "fetch.php",
+        type: "POST",
+    },
+    drawCallback: function (settings) {
+        var api = this.api();
+        var rows = api.rows({ page: "current" }).nodes();
+        var last = rows.length - 1;
+        if (last >= 0) {
+            var currentRow = $(api.row(last).node());
+            var previousRow = $(api.row(last - 1).node());
+            if (
+                currentRow.children().first().text() ===
+                previousRow.children().first().text()
+            ) {
+                api.row(last, { page: "current" }).remove().draw(false);
+            }
+        }
+    },
 });
