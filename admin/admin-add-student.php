@@ -8,9 +8,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $student->name = $_POST['fullname'];
         $student->birthdate = $_POST['birthdate'];
         $student->address = $_POST['address'];
-        $student->email = $_POST['email'];
         $student->score = $_POST['score'];
 
+        // Kiểm tra email
+        $email = $_POST['email'];
+        if (!empty($email)) {
+            if (Student::find_email($email)) {
+                $_SESSION['message'] = 'Email already exists';
+                redirect(url_for("admin-add-student.php"));
+            } else {
+                $student->email = $email;
+            }
+        }
 
         if (!empty($_FILES['file'])) {
             $image = upload_file();
@@ -65,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email" id="email" />
+                                        <input type="email" class="form-control" name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
                                     </div>
 
                                     <div class="form-group">

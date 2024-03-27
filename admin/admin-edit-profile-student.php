@@ -26,7 +26,11 @@ try {
             $student->image = upload_file();
         }
 
-        if ($student->update_by_admin()) {
+        if (Student::find_email($_POST['email'])) {
+            $_SESSION['message'] = 'Email already exists';
+            redirect("admin-edit-profile-student.php?id=" . $student->id);
+        } else {
+            $student->update_by_admin();
             Classes::update_class($id, $_POST['class']);
             // Tạo session thông báo
             $_SESSION['message'] = 'Updated successfully';

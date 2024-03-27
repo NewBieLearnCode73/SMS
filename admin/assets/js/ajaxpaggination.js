@@ -107,23 +107,17 @@ var dataTable = $("#studentTable").DataTable({
     scrollY: false,
     scrollX: false,
     pagingType: "full_numbers",
+    order: [], // Không sắp xếp mặc định
     ajax: {
         url: "fetch.php",
         type: "POST",
     },
-    drawCallback: function (settings) {
-        var api = this.api();
-        var rows = api.rows({ page: "current" }).nodes();
-        var last = rows.length - 1;
-        if (last >= 0) {
-            var currentRow = $(api.row(last).node());
-            var previousRow = $(api.row(last - 1).node());
-            if (
-                currentRow.children().first().text() ===
-                previousRow.children().first().text()
-            ) {
-                api.row(last, { page: "current" }).remove().draw(false);
-            }
-        }
-    },
+
+    // Tắt sắp xếp cột của cột thứ 7
+    columnDefs: [
+        {
+            targets: 7,
+            orderable: false,
+        },
+    ],
 });

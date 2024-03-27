@@ -170,4 +170,23 @@ LEFT JOIN classes ON students.id = classes.student_id WHERE LOWER(students.name)
             return false;
         }
     }
+
+    // Kiểm tra email có tồn tại trên hệ thống hay không
+    public static function find_email($email)
+    {
+        global $conn;
+        try {
+            $stmt = $conn->connection->prepare("SELECT email FROM students WHERE email = :email LIMIT 1");
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
 }

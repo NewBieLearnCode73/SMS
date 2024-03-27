@@ -17,8 +17,24 @@ OR students.email LIKE :searchValue
 OR students.address LIKE :searchValue 
 OR students.birthdate LIKE :searchValue 
 OR classes.class_name LIKE :searchValue
-ORDER BY students.id ASC
+-- ORDER BY students.id ASC
 ";
+
+if (isset($_POST['order'])) {
+    $column = $_POST['order'][0]['column']; // Column index
+    $order = $_POST['order'][0]['dir']; // asc or desc
+    $columns = array('name', 'id', 'class_name', 'score', 'email', 'address', 'birthdate');
+
+    // Sắp xếp theo tên, lấy phần cuối cùng của chuỗi
+    if ($columns[$column] == 'name') {
+        $query .= "ORDER BY SUBSTRING_INDEX(" . $columns[$column] . ", ' ', -1) " . $order . " ";
+    } else {
+        $query .= "ORDER BY " . $columns[$column] . " " . $order . " ";
+    }
+} else {
+    $query .= "ORDER BY students.id ASC ";
+}
+
 
 
 if ($length != -1) {

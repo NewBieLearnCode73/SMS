@@ -107,8 +107,17 @@ var dataTable = $("#studentTable").DataTable({
     scrollY: false,
     scrollX: false,
     pagingType: "full_numbers",
+    order: [], // Không sắp xếp mặc định
     ajax: {
         url: "fetch.php",
         type: "POST",
     },
+
+    // Tắt sắp xếp cột của cột thứ 7
+    columnDefs: [
+        {
+            targets: 7,
+            orderable: false,
+        },
+    ],
 });

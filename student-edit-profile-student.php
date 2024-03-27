@@ -19,11 +19,19 @@ if (isset($_POST['submit'])) {
         $old_image = $student->image;
         $student->image = $old_image;
     }
-    if ($student->update_by_student()) {
+    // Lấy email mới từ form
+    $new_email = $_POST['email'];
+
+    // Kiểm tra email mới có tồn tại trên hệ thống hay không
+    if (Student::find_email($new_email)) {
+        $_SESSION['message'] = 'Email already exists';
+        redirect("student-edit-profile-student.php");
+    } else {
+        $student->update_by_student();
+        $_SESSION['message'] = 'Updated successfully';
         redirect("student-edit-profile-student.php");
     }
 }
-
 ?>
 
 <!-- Main content -->
@@ -45,7 +53,7 @@ if (isset($_POST['submit'])) {
 
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email" id="email" value="<?php echo $student->email; ?>" required="required" />
+                                        <input type="email" class="form-control" name="email" id="email" value="<?php echo $student->email; ?>" required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
                                     </div>
 
                                     <div class="form-group">
