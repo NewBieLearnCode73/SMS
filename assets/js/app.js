@@ -1,5 +1,5 @@
 (function ($) {
-    "use strict";
+    ("use strict");
     var $wrapper = $(".main-wrapper");
     var $pageWrapper = $(".page-wrapper");
     var $slimScrolls = $(".slimscroll");
@@ -335,4 +335,11 @@
         }
         return true;
     });
+
+    // Nếu truy cập vào http://localhost/ct07n_nhom13_source thì sẽ chuyển hướng sang http://localhost/ct07n_nhom13_source/index.php
+    if (window.location.pathname == "/ct07n_nhom13_source/") {
+        window.location.assign(
+            window.location.origin + "/ct07n_nhom13_source/index.php"
+        );
+    }
 })(jQuery);

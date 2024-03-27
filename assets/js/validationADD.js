@@ -56,5 +56,3 @@ $(document).ready(function () {
         }
     });
 });
-
-// VALIDATION FOR CREATE ACCOUNT FORM

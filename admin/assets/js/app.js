@@ -335,4 +335,11 @@
         }
         return true;
     });
+
+    // Chuyển hướng url khi truy cập vào trang chính
+    if (window.location.pathname == "/ct07n_nhom13_source/") {
+        window.location.assign(
+            window.location.origin + "/ct07n_nhom13_source/index.php"
+        );
+    }
 })(jQuery);

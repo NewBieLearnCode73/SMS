@@ -14,8 +14,8 @@ if (!$session->is_signed_in()) {
 <?php
 // login admin
 if (admin_checking($user)) {
-    include_once("admin/admin-dashboard.php");
+    require_once("admin/admin-dashboard.php");
 } else {
-    include_once("student-profile.php");
+    require_once("student-profile.php");
 }
 ?>

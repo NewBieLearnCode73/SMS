@@ -20,18 +20,18 @@ function upload_file()
     try {
         // Trường hop không có file nào được upload
         if (empty($_FILES)) {
-            Dialog::show("No file was uploaded");
+            $_SESSION['message'] = "No file was uploaded";
             return null;
         }
         $rs = Errorfileupload::error($_FILES['file']['error']);
         if ($rs != 'OK') {
-            Dialog::show($rs);
+            $_SESSION['message'] = $rs;
             return null;
         }
 
         // Giới hạn dung lượng của file
         if ($_FILES['file']['size'] > FILE_MAX_SIZE) {
-            Dialog::show("File size is too large");
+            $_SESSION['message'] = "File size is too large";
             return null;
         }
 
@@ -43,7 +43,7 @@ function upload_file()
         // File upload sẽ lưu trong tmp_name
         $file_mine_type = finfo_file($fileinfo, $_FILES['file']['tmp_name']);
         if (!in_array($file_mine_type, $mine_types)) {
-            Dialog::show('File type must be an image');
+            $_SESSION['message'] = "File type must be an image";
             return null;
         }
 
@@ -70,7 +70,7 @@ function upload_file()
             return null;
         }
     } catch (Exception $e) {
-        Dialog::show($e->getMessage());
+        $_SESSION['message'] = $e->getMessage();
     }
 }
 

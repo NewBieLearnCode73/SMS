@@ -6,10 +6,14 @@
 try {
     $id = $_GET['id'] ?? null;
     if (!$id) {
-        redirect("admin-dashboard.php");
+        redirect(url_for('error-404.php'));
     }
 
     $student = Student::find_by_id($id);
+    if (!$student) {
+        redirect(url_for('error-404.php'));
+    }
+
     if ($_POST['submit'] ?? false) {
         foreach ($student as $key => $value) {
             if (isset($_POST[$key])) {

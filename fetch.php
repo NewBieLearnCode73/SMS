@@ -16,8 +16,10 @@ OR students.id LIKE :searchValue
 OR students.email LIKE :searchValue 
 OR students.address LIKE :searchValue 
 OR students.birthdate LIKE :searchValue 
-OR classes.class_name LIKE :searchValue 
-ORDER BY students.id ";
+OR classes.class_name LIKE :searchValue
+ORDER BY students.id ASC
+";
+
 
 if ($length != -1) {
     $query .= "LIMIT :start, :length";
