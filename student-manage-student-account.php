@@ -4,30 +4,10 @@
 <?php
 $error = array();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $partten_pass = '/^(?=.*[A-Z])(?=.*[a-z]).{8,20}$/';
+    $password = $_POST['password'] ?? '';
+    $repassword = $_POST['repassword'] ?? '';
 
-    if (empty($_POST['password'])) {
-        $error['password'] =  'Password not empty';
-    }
-
-    // Is password fit? 
-    else if (strlen($_POST['password']) < 8) {
-        $error['password'] =  'Password is needed more than 8 character';
-    } else if (!preg_match($partten_pass, $_POST['password'])) {
-        $error['password'] =  'Password is not fit';
-    }
-
-    // Nếu không có lỗi input password
-    if (!isset($error['password'])) {
-        if (empty($_POST['repassword'])) {
-            $error['repassword'] =  'RePassword not empty';
-        } else if ($_POST['password'] != $_POST['repassword']) {
-            $error['repassword'] = 'RePassword is not fit with Password';
-        } else {
-            $user->editPassword($user->id, $_POST['password']);
-            $error['success'] = "<b></b>Changed Password Successfully</b>";
-        }
-    }
+    $user->editPassword($user->id, $_POST['password']);
 }
 ?>
 
@@ -50,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="card-body">
 
                             <!-- FORM ĐĂNG KÍ -->
-                            <form method="post" action="">
+                            <form method="post" action="" class="form-student-account">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -62,39 +42,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                                                         echo " disabled";
                                                                                                     } ?> />
                                         </div>
-                                        <p class="error">
-                                            <?php if (!empty($inform['username'])) {
-                                                echo $inform['username'];
-                                            } ?>
-                                        </p>
+                                        <p class="error"></p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            <input type="password" class="form-control" name="password" />
+                                            <input type="password" class="form-control form-student-account__input--password" name="password" />
                                         </div>
 
-                                        <p class="error">
-                                            <?php if (isset($error['password'])) {
-                                                echo $error['password'];
-                                            } ?>
-                                        </p>
+                                        <p class="error"></p>
 
                                         <div class="form-group">
                                             <label for="repassword">Enter the password again</label>
-                                            <input type="password" class="form-control" name="repassword" />
+                                            <input type="password" class="form-control form-student-account__input--repassword" name="repassword" />
                                         </div>
-                                        <p class="error">
-                                            <?php if (isset($error['repassword'])) {
-                                                echo $error['repassword'];
-                                            }
-                                            if (isset($error['success'])) {
-                                                echo $error['success'];
-                                            }
-                                            ?>
-                                        </p>
+                                        <p class="error"></p>
 
                                     </div>
                                 </div>

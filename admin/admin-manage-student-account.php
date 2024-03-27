@@ -11,39 +11,19 @@ if (!empty($_GET['id'])) {
     redirect(url_for('error-404.php'));
 }
 
-// Xủ lí form
-$inform = array();
-$username = "";
-$password = "";
 
 // Kiểm tra dữ liệu
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $partten_username = '/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_]{8,20}$/';
-    $partten_pass = '/^(?=.*[A-Z])(?=.*[a-z]).{8,20}$/';
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
 
     // Kiểm tra username
     if (!User::is_exist_student_id($student->id)) {
-        // Kiểm tra username
-        if (empty($_POST['username'])) {
-            $inform['username'] = 'Username not empty';
-        } else if (!preg_match($partten_username, $_POST['username'])) {
-            $inform['username'] = 'Username not fit';
-        } else if (User::find_username($_POST['username'])) {
-            $inform['username'] = 'Username already exists';
-        } else {
-            $username = $_POST['username'];
+        // Kiểm tra username có tồn tại hay không
+        if (User::find_username($_POST['username'])) {
+            $_SESSION['message'] = 'Username already exists'; // thông báo khi username đã tồn tại
+            redirect("admin-manage-student-account.php?id=$student->id");
         }
-    }
-
-    // Kiểm tra password
-    if (empty($_POST['password'])) {
-        $inform['password'] = 'Password not empty';
-    } else if (strlen($_POST['password']) < 8) {
-        $inform['password'] = 'Password from 8 characters';
-    } else if (!preg_match($partten_pass, $_POST['password'])) {
-        $inform['password'] = 'Password not fit';
-    } else {
-        $password = $_POST['password'];
     }
 
     //Lưu dữ liệu vào database
@@ -85,38 +65,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="card-body">
 
                             <!-- FORM ĐĂNG KÍ -->
-                            <form method="post" action="">
+                            <form method="post" action="" class="form-manage-student-account">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Username</label>
-                                            <input type="text" class="form-control" name="username" <?php
-                                                                                                    // Nếu như user_id đã tồn tại thì hiển thị username và disable input
-                                                                                                    if (User::is_exist_student_id($student->id)) {
-                                                                                                        echo "value=" . '"' . User::is_exist_student_id($student->id)->username . '"';
-                                                                                                        echo " disabled";
-                                                                                                    } ?> />
+                                            <input type="text" class="form-control form-manage-student-account__input--username" name="username" <?php
+                                                                                                                                                    // Nếu như user_id đã tồn tại thì hiển thị username và disable input
+                                                                                                                                                    if (User::is_exist_student_id($student->id)) {
+                                                                                                                                                        echo "value=" . '"' . User::is_exist_student_id($student->id)->username . '"';
+                                                                                                                                                        echo " disabled";
+                                                                                                                                                    } ?> />
                                         </div>
-                                        <p class="error">
-                                            <?php if (!empty($inform['username'])) {
-                                                echo $inform['username'];
-                                            } ?>
-                                        </p>
+                                        <!-- Error username -->
+                                        <p class="error"></p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" class="form-control" name="password" />
+                                            <input type="password" class="form-control form-manage-student-account__input--password" name="password" />
                                         </div>
-                                        <p class="error">
-                                            <?php if (!empty($inform['password'])) {
-                                                echo $inform['password'];
-                                            } else if (!empty($_SESSION['message'])) {
-                                                echo "<b>" . $_SESSION['message'] . "</b>";
-                                            } ?>
-                                        </p>
+                                        <!-- Error Password -->
+                                        <p class="error"></p>
                                     </div>
                                 </div>
                                 <div class="row">

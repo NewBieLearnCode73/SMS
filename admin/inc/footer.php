@@ -8,6 +8,7 @@
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.js"></script>
+<script src="assets/js/validationADD.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/ajaxpaggination.js"></script>
 

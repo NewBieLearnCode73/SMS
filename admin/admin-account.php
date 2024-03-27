@@ -3,25 +3,11 @@
 
 
 <?php
-$error = array();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'] ?? '';
     $repassword = $_POST['repassword'] ?? '';
 
-    if (empty($password)) {
-        $error['password'] = 'Password not empty';
-    } elseif (strlen($password) < 8) {
-        $error['password'] = 'Password is needed more than 8 character';
-    } elseif (!preg_match('/^(?=.*[A-Z])(?=.*[a-z]).{8,20}$/', $password)) {
-        $error['password'] = 'Password is not fit';
-    } elseif (empty($repassword)) {
-        $error['repassword'] = 'RePassword not empty';
-    } elseif ($password != $repassword) {
-        $error['repassword'] = 'RePassword is not fit with Password';
-    } else {
-        $user->editPassword(1, $password);
-        $error['success'] = "<b>Changed Password Successfully</b>";
-    }
+    $user->editPassword(1, $password);
 }
 ?>
 
@@ -44,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="card-body">
 
                             <!-- FORM ĐĂNG KÍ -->
-                            <form method="post" action="">
+                            <form method="post" action="" class="form-admin-account">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -57,28 +43,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            <input type="password" class="form-control" name="password" />
+                                            <input type="password" class="form-control form-admin-account__input--password" name="password" />
                                         </div>
 
-                                        <p class="error">
-                                            <?php if (isset($error['password'])) {
-                                                echo $error['password'];
-                                            } ?>
-                                        </p>
+                                        <p class="error"></p>
 
                                         <div class="form-group">
                                             <label for="repassword">Enter the password again</label>
-                                            <input type="password" class="form-control" name="repassword" />
+                                            <input type="password" class="form-control form-admin-account__input--repassword" name="repassword" />
                                         </div>
-                                        <p class="error">
-                                            <?php if (isset($error['repassword'])) {
-                                                echo $error['repassword'];
-                                            }
-                                            if (isset($error['success'])) {
-                                                echo $error['success'];
-                                            }
-                                            ?>
-                                        </p>
+                                        <p class="error"></p>
 
                                     </div>
                                 </div>
@@ -91,7 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </div>
                             </form>
                             <!-- END FORM ĐĂNG KÍ -->
-
 
                         </div>
                     </div>
@@ -123,6 +96,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 <!-- End maincontent -->
-
 
 <?php include_once("inc/footer.php"); ?>
