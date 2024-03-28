@@ -19,4 +19,4 @@ define('URL_ROOT', 'http://localhost/ct07n_nhom13_source/');
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'ct07n_nhom13');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASS', ''); // Thay đổi là mysql nếu dung Ampps
