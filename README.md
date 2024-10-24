@@ -43,4 +43,4 @@ username: _chieu123bl_ / password: _ChieuNDC112233@_
 ## Warning
 
 If you are using Ampps, you need to change in conffig.php `DB_PASS` is `mysql`
-PLEASE CHANGE `config.php` in admin folder to comforatble with your localhost like `Ampps` or `Wamp`
+PLEASE CHANGE `config.php` in admin folder to suitable with your localhost like `Ampps` or `Wamp`
